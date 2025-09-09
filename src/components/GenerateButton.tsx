@@ -5,7 +5,7 @@ import type { ConstructorState } from '@/types/constructor';
 
 export function GenerateButton({ state }: { state: ConstructorState }) {
   // const { data: session } = useSession();
-  const session = null;
+  // const session = null;
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedRecipe, setGeneratedRecipe] = useState<{id?: string; title: string} | null>(null);
 
@@ -18,7 +18,7 @@ export function GenerateButton({ state }: { state: ConstructorState }) {
         body: JSON.stringify({
           ingredients: state.ingredients,
           constraints: { pasta: state.pasta, query: state.query },
-          userId: (session?.user as { id?: string })?.id,
+          userId: undefined, // Пока авторизация не настроена
         }),
       });
 
