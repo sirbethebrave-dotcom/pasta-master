@@ -6,9 +6,6 @@ export function AuthButton() {
   const session = null;
   const status = "unauthenticated";
 
-  if (status === 'loading') {
-    return <div className="w-20 h-8 bg-gray-200 rounded animate-pulse" />;
-  }
 
   if (session) {
     return (
