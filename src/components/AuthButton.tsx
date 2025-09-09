@@ -3,7 +3,7 @@
 
 export function AuthButton() {
   // const { data: session, status } = useSession();
-  // const session = null;
+  // const session = null; // Исправлено
 
   // Пока авторизация не настроена, всегда показываем кнопку входа
   // if (session) {
