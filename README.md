@@ -1,5 +1,7 @@
 # Pasta Master — Конструктор пасты на ИИ
 
+<!-- Build trigger: force Vercel to use latest commit -->
+
 ## 🚀 Запуск
 ```bash
 npm install
