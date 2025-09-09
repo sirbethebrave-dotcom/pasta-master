@@ -18,7 +18,7 @@ export function GenerateButton({ state }: { state: ConstructorState }) {
         body: JSON.stringify({
           ingredients: state.ingredients,
           constraints: { pasta: state.pasta, query: state.query },
-          userId: undefined, // Пока авторизация не настроена - исправлено v3
+          userId: undefined, // Пока авторизация не настроена - исправлено v4
         }),
       });
 
