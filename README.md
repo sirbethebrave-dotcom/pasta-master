@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pasta Master — Конструктор пасты на ИИ
 
-## Getting Started
+## 🚀 Запуск
+```bash
+npm install
+npm run dev
+```
+Открой `http://localhost:3000`.
 
-First, run the development server:
+## ✨ Что готово
+- **Landing**: хиро, конструктор чипсов, библиотека карточек
+- **Рецепт**: `/recipe/[id]` с ингредиентами и шагами  
+- **AI генерация**: `POST /api/generate` (OpenAI GPT-4o-mini)
+- **Картинки**: `POST /api/generate-image` (DALL-E 3)
+- **Кладовая**: localStorage, чипсы на главной
+- **База данных**: SQLite + Prisma (User, Recipe, Rating, PantryItem)
+- **Авторизация**: NextAuth (Google OAuth готов к настройке)
+
+## 🔧 Переменные окружения
+Скопируй `.env.example` → `.env.local`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Database
+DATABASE_URL="file:./dev.db"
+
+# NextAuth  
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key-change-in-production"
+
+# OpenAI (для реальной генерации)
+OPENAI_API_KEY="sk-..."
+
+# Google OAuth (опционально)
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎯 Функционал
+- **Конструктор**: выбери пасту + ингредиенты → ИИ создаст рецепт
+- **Кладовая**: отметь что есть дома → рецепты только из доступного
+- **Библиотека**: фильтры по тегам, рейтинги, карточки
+- **Генерация**: без API ключа = мок данные, с ключом = реальный ИИ
+- **Сохранения**: авторизованные пользователи сохраняют рецепты
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Структура
+```
+src/
+├── app/                    # App Router
+│   ├── page.tsx           # Главная
+│   ├── recipe/[id]/       # Страница рецепта
+│   └── api/               # API endpoints
+├── components/            # UI компоненты
+├── lib/                   # Утилиты (db, openai, images)
+├── data/                  # Мок данные
+└── types/                 # TypeScript типы
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔄 Следующие шаги
+- Настроить Google OAuth
+- Добавить реальные картинки блюд
+- Расширить фильтры библиотеки
+- Добавить рейтинги и комментарии
+- Мобильная версия

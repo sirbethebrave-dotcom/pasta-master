@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  recipes   Recipe[]
+  ratings   Rating[]
+  pantry    PantryItem[]
+  
+  @@map("users")
+}
+
+model Recipe {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  ingredients Json     // Array of {name, amount, unit}
+  steps       Json     // Array of {text, timeMin}
+  nutrition   Json?    // {cal, protein, fat, carb}
+  timeTotal   Int
+  difficulty  String
+  imageUrl    String?
+  tags        String   // Comma-separated tags
+  isGenerated Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id])
+  ratings     Rating[]
+  
+  @@map("recipes")
+}
+
+model Rating {
+  id       String @id @default(cuid())
+  value    Int    // 1-5
+  recipeId String
+  userId   String
+  
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  user     User   @relation(fields: [userId], references: [id])
+  
+  @@unique([recipeId, userId])
+  @@map("ratings")
+}
+
+model PantryItem {
+  id       String @id @default(cuid())
+  name     String
+  quantity Float?
+  unit     String?
+  userId   String
+  
+  user     User   @relation(fields: [userId], references: [id])
+  
+  @@unique([userId, name])
+  @@map("pantry_items")
+}
