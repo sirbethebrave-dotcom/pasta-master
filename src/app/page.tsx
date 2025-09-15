@@ -111,10 +111,10 @@ export default function Home() {
                   <button
                     key={pasta}
                     onClick={() => handlePastaSelect(pasta)}
-                    className={`px-4 py-3 rounded-lg border-2 transition-colors ${
+                    className={`px-4 py-3 rounded-lg border-2 transition-colors font-medium ${
                       state.pasta === pasta
                         ? 'border-green-500 bg-green-50 text-green-700'
-                        : 'border-gray-200 hover:border-green-300'
+                        : 'border-gray-300 bg-gray-50 text-gray-700 hover:border-green-400 hover:bg-green-50 hover:text-green-700'
                     }`}
                   >
                     {pasta}
@@ -133,10 +133,10 @@ export default function Home() {
                   <button
                     key={ingredient}
                     onClick={() => handleIngredientToggle(ingredient)}
-                    className={`px-4 py-3 rounded-lg border-2 transition-colors ${
+                    className={`px-4 py-3 rounded-lg border-2 transition-colors font-medium ${
                       state.ingredients.includes(ingredient)
                         ? 'border-green-500 bg-green-50 text-green-700'
-                        : 'border-gray-200 hover:border-green-300'
+                        : 'border-gray-300 bg-gray-50 text-gray-700 hover:border-green-400 hover:bg-green-50 hover:text-green-700'
                     }`}
                   >
                     {ingredient}
