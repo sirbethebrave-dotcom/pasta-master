@@ -7,6 +7,7 @@ export function GenerateButton({ state }: { state: ConstructorState }) {
   // const { data: session } = useSession();
   // const session = null;
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
   const [generatedRecipe, setGeneratedRecipe] = useState<{
     id?: string; 
     title: string;
@@ -33,6 +34,10 @@ export function GenerateButton({ state }: { state: ConstructorState }) {
       const data = await response.json();
       setGeneratedRecipe(data.recipe);
       
+      // Show celebration effect
+      setShowCelebration(true);
+      setTimeout(() => setShowCelebration(false), 3000);
+      
       // Redirect to recipe page or show modal
       if (data.recipe.id) {
         window.location.href = `/recipe/${data.recipe.id}`;
@@ -45,20 +50,51 @@ export function GenerateButton({ state }: { state: ConstructorState }) {
   };
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 relative">
+      {/* Celebration Effect */}
+      {showCelebration && (
+        <div className="absolute inset-0 pointer-events-none z-10">
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4">
+            <div className="text-4xl animate-bounce">🎉</div>
+          </div>
+          <div className="absolute top-0 left-1/4 transform -translate-y-2">
+            <div className="text-2xl animate-pulse">✨</div>
+          </div>
+          <div className="absolute top-0 right-1/4 transform -translate-y-2">
+            <div className="text-2xl animate-pulse">🌟</div>
+          </div>
+        </div>
+      )}
+      
       <button
         onClick={handleGenerate}
         disabled={isGenerating}
-        className="w-full py-4 bg-[#8FB07C] text-white rounded-xl font-semibold hover:bg-[#7a9a6b] transition disabled:opacity-50"
+        className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 transform ${
+          isGenerating 
+            ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white animate-pulse' 
+            : 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-lg'
+        } disabled:opacity-50 disabled:cursor-not-allowed`}
       >
-        {isGenerating ? 'Генерируем рецепт...' : 'Создать рецепт'}
+        {isGenerating ? (
+          <span className="flex items-center justify-center gap-2">
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            Генерируем рецепт...
+          </span>
+        ) : (
+          <span className="flex items-center justify-center gap-2">
+            <span className="text-xl">🍝</span>
+            Создать рецепт
+            <span className="text-xl">✨</span>
+          </span>
+        )}
       </button>
       
       {generatedRecipe && (
-        <div className="mt-6 p-6 bg-green-50 rounded-xl border border-green-200">
+        <div className="mt-6 p-6 bg-gradient-to-br from-green-50 to-blue-50 rounded-xl border-2 border-green-200 shadow-lg animate-fadeIn">
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-2xl">🎉</span>
+            <span className="text-2xl animate-bounce">🎉</span>
             <h3 className="text-xl font-bold text-green-800">Рецепт создан!</h3>
+            <span className="text-2xl animate-pulse">✨</span>
           </div>
           
           <div className="space-y-4">

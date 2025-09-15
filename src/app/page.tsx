@@ -87,20 +87,6 @@ export default function Home() {
       <section className="py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow-lg p-8">
-            {/* Query Input */}
-            <div className="mb-8">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Дополнительные пожелания (опционально)
-              </label>
-              <input
-                type="text"
-                value={state.query}
-                onChange={(e) => setState(prev => ({ ...prev, query: e.target.value }))}
-                placeholder="Например: острое, вегетарианское, с морепродуктами..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              />
-            </div>
-
             {/* Pasta Selection */}
             <div className="mb-8">
               <label className="block text-sm font-medium text-gray-700 mb-4">
@@ -161,6 +147,30 @@ export default function Home() {
                 </div>
               </div>
             )}
+
+            {/* Additional Preferences */}
+            <div className="mb-8">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                💭 Дополнительные пожелания к рецепту
+              </label>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-3">
+                <p className="text-sm text-blue-700 mb-2">
+                  <span className="font-medium">💡 Подсказка:</span> Опишите, какой рецепт вы хотите получить
+                </p>
+                <div className="text-xs text-blue-600 space-y-1">
+                  <p>• <strong>Стиль:</strong> &ldquo;острое&rdquo;, &ldquo;нежное&rdquo;, &ldquo;свежее&rdquo;, &ldquo;сытное&rdquo;</p>
+                  <p>• <strong>Особенности:</strong> &ldquo;вегетарианское&rdquo;, &ldquo;с морепродуктами&rdquo;, &ldquo;быстрое&rdquo;</p>
+                  <p>• <strong>Предпочтения:</strong> &ldquo;без лука&rdquo;, &ldquo;с большим количеством сыра&rdquo;</p>
+                </div>
+              </div>
+              <input
+                type="text"
+                value={state.query}
+                onChange={(e) => setState(prev => ({ ...prev, query: e.target.value }))}
+                placeholder="Например: острое и сытное блюдо с большим количеством сыра..."
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              />
+            </div>
 
             {/* Generate Button */}
             <GenerateButton state={state} />
