@@ -1,102 +1,187 @@
-import Image from "next/image";
+'use client';
+import { useState } from 'react';
+import { AuthButton } from '@/components/AuthButton';
+import { Pantry } from '@/components/Pantry';
+import { GenerateButton } from '@/components/GenerateButton';
+import type { ConstructorState } from '@/types/constructor';
+
+const PASTA_TYPES = [
+  'Спагетти',
+  'Пенне',
+  'Фузилли',
+  'Ригатони',
+  'Лингвини',
+  'Феттучини',
+  'Равиоли',
+  'Тортеллини'
+];
+
+const INGREDIENTS = [
+  'Помидоры',
+  'Чеснок',
+  'Лук',
+  'Базилик',
+  'Орегано',
+  'Сыр пармезан',
+  'Моцарелла',
+  'Оливковое масло',
+  'Сливки',
+  'Грибы',
+  'Бекон',
+  'Креветки',
+  'Лосось',
+  'Брокколи',
+  'Шпинат',
+  'Каперсы',
+  'Оливки',
+  'Анчоусы'
+];
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [state, setState] = useState<ConstructorState>({
+    query: '',
+    pasta: null,
+    ingredients: []
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handlePastaSelect = (pasta: string) => {
+    setState(prev => ({ ...prev, pasta }));
+  };
+
+  const handleIngredientToggle = (ingredient: string) => {
+    setState(prev => ({
+      ...prev,
+      ingredients: prev.ingredients.includes(ingredient)
+        ? prev.ingredients.filter(i => i !== ingredient)
+        : [...prev.ingredients, ingredient]
+    }));
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <h1 className="text-2xl font-bold text-green-800">🍝 Pasta Master</h1>
+            </div>
+            <AuthButton />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </header>
+
+      {/* Hero Section */}
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Гениальный конструктор пасты на ИИ
+          </h2>
+          <p className="text-xl text-gray-600 mb-8">
+            Выберите пасту и ингредиенты, а ИИ создаст идеальный рецепт
+          </p>
+        </div>
+      </section>
+
+      {/* Constructor */}
+      <section className="py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            {/* Query Input */}
+            <div className="mb-8">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Дополнительные пожелания (опционально)
+              </label>
+              <input
+                type="text"
+                value={state.query}
+                onChange={(e) => setState(prev => ({ ...prev, query: e.target.value }))}
+                placeholder="Например: острое, вегетарианское, с морепродуктами..."
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              />
+            </div>
+
+            {/* Pasta Selection */}
+            <div className="mb-8">
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Выберите тип пасты
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {PASTA_TYPES.map((pasta) => (
+                  <button
+                    key={pasta}
+                    onClick={() => handlePastaSelect(pasta)}
+                    className={`px-4 py-3 rounded-lg border-2 transition-colors ${
+                      state.pasta === pasta
+                        ? 'border-green-500 bg-green-50 text-green-700'
+                        : 'border-gray-200 hover:border-green-300'
+                    }`}
+                  >
+                    {pasta}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Ingredients Selection */}
+            <div className="mb-8">
+              <label className="block text-sm font-medium text-gray-700 mb-4">
+                Выберите ингредиенты
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {INGREDIENTS.map((ingredient) => (
+                  <button
+                    key={ingredient}
+                    onClick={() => handleIngredientToggle(ingredient)}
+                    className={`px-4 py-3 rounded-lg border-2 transition-colors ${
+                      state.ingredients.includes(ingredient)
+                        ? 'border-green-500 bg-green-50 text-green-700'
+                        : 'border-gray-200 hover:border-green-300'
+                    }`}
+                  >
+                    {ingredient}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Selected Ingredients Summary */}
+            {state.ingredients.length > 0 && (
+              <div className="mb-8 p-4 bg-green-50 rounded-lg">
+                <h3 className="font-medium text-green-800 mb-2">Выбранные ингредиенты:</h3>
+                <div className="flex flex-wrap gap-2">
+                  {state.ingredients.map((ingredient) => (
+                    <span
+                      key={ingredient}
+                      className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm"
+                    >
+                      {ingredient}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Generate Button */}
+            <GenerateButton state={state} />
+          </div>
+        </div>
+      </section>
+
+      {/* Pantry Section */}
+      <section className="py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Pantry />
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-white border-t">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center text-gray-600">
+            <p>© 2024 Pasta Master. Создано с помощью ИИ.</p>
+          </div>
+        </div>
       </footer>
     </div>
   );
