@@ -12,7 +12,7 @@ export function GenerateButton({ state }: { state: ConstructorState }) {
     title: string;
     description?: string;
     ingredients?: string[];
-    steps?: string[];
+    steps?: (string | { text: string; timeMin: number })[];
     timeTotal?: number;
     difficulty?: string;
   } | null>(null);
@@ -100,7 +100,12 @@ export function GenerateButton({ state }: { state: ConstructorState }) {
                 <h5 className="font-semibold text-gray-700 mb-2">Приготовление:</h5>
                 <ol className="list-decimal list-inside space-y-2 text-sm text-gray-600">
                   {generatedRecipe.steps.map((step, index) => (
-                    <li key={index}>{step}</li>
+                    <li key={index}>
+                      {typeof step === 'string' ? step : step.text}
+                      {typeof step === 'object' && step.timeMin && (
+                        <span className="text-blue-600 ml-2">({step.timeMin} мин)</span>
+                      )}
+                    </li>
                   ))}
                 </ol>
               </div>
