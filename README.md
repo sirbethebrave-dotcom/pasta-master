@@ -1,6 +1,6 @@
 # Pasta Master — Конструктор пасты на ИИ
 
-<!-- Build trigger: force Vercel to use latest commit -->
+<!-- Build trigger: force Vercel to use latest commit - updated -->
 
 ## 🚀 Запуск
 ```bash
