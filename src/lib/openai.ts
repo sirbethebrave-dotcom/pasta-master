@@ -5,7 +5,12 @@ export const openai = new OpenAI({
 });
 
 export async function generateRecipe(ingredients: string[], constraints: Record<string, unknown>) {
+  console.log('🔑 OpenAI API Key available:', !!process.env.OPENAI_API_KEY);
+  console.log('📝 Ingredients:', ingredients);
+  console.log('🎯 Constraints:', constraints);
+  
   if (!process.env.OPENAI_API_KEY) {
+    console.log('⚠️ No OpenAI API key found, using mock data');
     // Generate smart mock data based on ingredients
     const pasta = (constraints.pasta as string) || 'паста';
     const hasTomatoes = ingredients.some(i => i.toLowerCase().includes('помидор'));
@@ -126,6 +131,7 @@ export async function generateRecipe(ingredients: string[], constraints: Record<
 }`;
 
   try {
+    console.log('🤖 Calling OpenAI API...');
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: prompt }],
@@ -135,6 +141,8 @@ export async function generateRecipe(ingredients: string[], constraints: Record<
 
     const content = completion.choices[0]?.message?.content;
     if (!content) throw new Error('No response from OpenAI');
+    
+    console.log('✅ OpenAI response received:', content.substring(0, 100) + '...');
 
     // Clean the response - remove any markdown formatting
     const cleanContent = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
